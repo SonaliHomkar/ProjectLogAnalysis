@@ -1,0 +1,67 @@
+1. What are the most popular three articles of all time 
+
+select count(*) as num,articles.title,path,articles.slug,name,authors.id,status from log,articles,authors group by path,articles.slug,name,authors.id,articles.author,log.status,articles.title having articles.slug = substr(log.path,10) and authors.id=articles.author order by num desc
+
+
+
+2. Who are the most popular article authors of all time
+
+
+
+
+
+select foo.name,sum(foo.num) as total from (select count(*) as num,path,articles.slug,name,authors.id from log,articles,authors group by path,articles.slug,name,authors.id,articles.author having articles.slug = substr(log.path,10) and authors.id=articles.author order by authors.id) as foo group by foo.name order by total desc ;
+----------------
+select foo.name,sum(foo.num) as total,foo.id from (select count(*) as num,path,articles.slug,name,authors.id from log,articles,authors group by path,articles.slug,name,authors.id,articles.author,log.status having articles.slug = substr(log.path,10) and authors.id=articles.author and log.status like '%200%' order by authors.id) as foo group by foo.id,foo.name order by total desc;
+3. 
+select foo.abc,foo.num,count(foo.num),log.status,date_trunc('day',log.time) from log, (select count(*) as num,date_trunc('day',time) as abc from log group by date_trunc('day',time) ) as foo
+group by foo.abc,foo.num,log.status,date_trunc('day',log.time) having log.status like '%404%' and date_trunc('day',log.time) = foo.abc;
+
+
+4.select foo.abc,foo.num,count(foo.num) as count ,log.status,date_trunc('day',log.time), (count(foo.num) * 100 / foo.num ) as per from log, (select count(*) as num,date_trunc('day',time) as abc from log group by date_trunc('day',time) ) as foo
+group by foo.abc,foo.num,log.status,date_trunc('day',log.time) having log.status like '%404%' and date_trunc('day',log.time) = foo.abc and (count(foo.num) * 100/foo.num) > 1 ;
+-----------------------
+Collecting psycopg2-binary
+  Downloading psycopg2_binary-2.7.4-cp35-cp35m-manylinux1_i686.whl (2.4MB)
+    100% |¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦| 2.4MB 213kB/s
+Installing collected packages: psycopg2-binary
+Exception:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.5/dist-packages/pip/basecommand.py", line 215, in main
+    status = self.run(options, args)
+  File "/usr/local/lib/python3.5/dist-packages/pip/commands/install.py", line 342, in run
+    prefix=options.prefix_path,
+  File "/usr/local/lib/python3.5/dist-packages/pip/req/req_set.py", line 784, in install
+    **kwargs
+  File "/usr/local/lib/python3.5/dist-packages/pip/req/req_install.py", line 851, in install
+    self.move_wheel_files(self.source_dir, root=root, prefix=prefix)
+  File "/usr/local/lib/python3.5/dist-packages/pip/req/req_install.py", line 1064, in move_wheel_files
+    isolated=self.isolated,
+  File "/usr/local/lib/python3.5/dist-packages/pip/wheel.py", line 345, in move_wheel_files
+    clobber(source, lib_dir, True)
+  File "/usr/local/lib/python3.5/dist-packages/pip/wheel.py", line 323, in clobber
+    shutil.copyfile(srcfile, destfile)
+  File "/usr/lib/python3.5/shutil.py", line 115, in copyfile
+    with open(dst, 'wb') as fdst:
+PermissionError: [Errno 13] Permission denied: '/usr/local/lib/python3.5/dist-packages/psycopg2/extras.py'
+
+-------------
+ <div class="row">
+		        <div  class="col-md-12" >
+		        	 <input type="radio" name="ddlReport" value="0" onclick="showReport(0)">What are the most popular three articles of all time?<br>
+		        	 <input type="radio" name="ddlReport" value="1" onclick="showReport(1)">Who are the most popular article authors of all time?<br>
+		        	 <input type="radio" name="ddlReport" value="2" onclick="showReport(2)">On which days did more than 1% of requests lead to errors?<br>
+		        	 
+		        	 
+		        	 
+		            <select name="ddlReport" >
+		                <option  value="Query1">What are the most popular three articles of all time?</option>
+		                <option  value="Query2">Who are the most popular article authors of all time?</option>
+		                <option  value="Query3">On which days did more than 1% of requests lead to errors?</option>
+		            </select> 
+		            <input type="button" value="View" onclick="showReport(ddlReport.selectedIndex)">        
+		       	</div>	
+	        </div>   
+	        <div class="row">
+	        	<div id="report" class="col-md-6"></div>	
+	        </div>

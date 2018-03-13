@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+	 	<meta name="viewport" content="width=device-width,initial-scale=1">
+	 	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js')}}"></script>
+	    <link href="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/esm/popper-utils.js">
+	    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js')}}"></script>
+	    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+	    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+		<link href="https://fonts.googleapis.com/css?family=Gentium+Book+Basic" rel="stylesheet">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+		<title></title>
+    </head>
+    
+    <script type="text/javascript">
+    	function showReport(ReportId){
+    		//alert("hi" + ReportId);
+    		$.ajax(
+                    {
+                    	type: 'POST',
+                        url: '/getReport/' + ReportId,
+                        contentType: 'application/octet-stream; charset=utf-8',
+                        data: "{}",
+                        dataType: "json",
+                        success: function(result)
+                        {
+                            if(result)
+                            {
+                            	if(ReportId==0){
+	                            	subCat = $("#report");
+	                                subCat.empty();
+	                                for (var i = 0; i < result.data.length; i++) {
+	                                    subCat.append("\"" + result.data[i].title + "\" - " + result.data[i].num + " views<br>");
+	                                    }	
+                            	}
+                            	if(ReportId==1){
+	                            	subCat = $("#report1");
+	                                subCat.empty();
+	                                for (var i = 0; i < result.data.length; i++) {
+	                                    subCat.append("\"" + result.data[i].author + "\" - " + result.data[i].total + " views<br>");
+	                                    }	
+                            	}
+                            	if(ReportId==2){
+                            		subCat = $("#report2");
+	                                subCat.empty();
+	                                for (var i = 0; i < result.data.length; i++) {
+	                                    subCat.append("\"On " + result.data[i].errdate.substr(5,11) + "\" - " + result.data[i].per + "%<br>");
+	                                    subCat.append("\"Total number of requests \" - " + result.data[i].num + "<br>\"Total number of errors \" - " + result.data[i].count + "<br>");
+	                                    }	
+                            	}
+                                
+                            }
+                        }
+                           
+                	});
+    	}
+    </script>
+    
+    <body style="background-color: lightgray;">
+    <form>
+    	<div class="row" style="background-color: navy;">
+            <div class="col-md-2 " ></div>
+            <div class="col-md-7 text-left ">
+                <h2 class="title-super text-thin " style="color:white;">News Reports</h2>
+            </div>
+        </div>
+         <div class="container" style="background-color: white;margin-top: 10px; padding-top: 10px;"> 
+         	<div class="row">
+         		<div  class="col-md-6" >
+         			<b>1. What are the most popular three articles of all time? </b> <br>
+         		</div>
+         		<div  class="col-md-6" >
+         			<input type="button" value="View" onclick="showReport(0)">
+         			
+         		</div>
+         	</div>
+         	<div class="row">
+         		<div  class="col-md-12" >
+         			<div id="report"></div>
+         		</div>
+         	</div>
+         	<div class="row">
+         		<div  class="col-md-6" >
+         			<b>2. Who are the most popular article authors of all time? </b><br>
+         		</div>
+         		<div  class="col-md-6" >
+         			<input type="button" value="View" onclick="showReport(1)">
+         		</div>
+         	</div>
+         	<div class="row">
+         		<div  class="col-md-12" >
+         			<div id="report1"></div>
+         		</div>
+         	</div>
+
+			<div class="row">
+         		<div  class="col-md-6" >
+         			<b>3. On which days did more than 1% of requests lead to errors? </b><br>
+         		</div>
+         		<div  class="col-md-6" >
+         			<input type="button" value="View" onclick="showReport(2)">
+         		</div>
+         	</div>
+
+         	<div class="row">
+         		<div  class="col-md-12" >
+         			<div id="report2"></div>
+         		</div>
+         	</div>
+	
+	       	        
+        </div>
+            	
+    </body>
+</html>
