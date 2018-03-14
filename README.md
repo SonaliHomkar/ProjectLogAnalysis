@@ -23,6 +23,7 @@ Prerequisites
 
 Installing
 1. Add line following line in the Vagrantfile to add the port to server
+
  	config.vm.network "forwarded_port", guest: 5000, host: 5000
 2. Please compile the file LogQuery.py using compiler python3
 3. Compile LogAnalysis.py using compiler python3
