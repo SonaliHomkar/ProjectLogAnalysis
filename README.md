@@ -1,4 +1,5 @@
 Log Analysis
+
 This project is aimed to generate following reports from news database which can be used by management for analysis
 1. What are the most popular three articles of all time
 2. Who are the most popular article authors of all time
