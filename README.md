@@ -38,8 +38,11 @@ Installing
 Running the tests
 1. Open the browser and type http://localhost:5000/
    It should open the page with heading "News Reports" with the following option to generate the report
+   
  	a. What are the most popular three articles of all time?  View (button)
+
 	b. Who are the most popular article authors of all time? View (button)
+	
 	c. On which days did more than 1% of requests lead to errors? View (button)
 2. Clicking on View button of each report should display the report
 
