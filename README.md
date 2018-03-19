@@ -1,5 +1,4 @@
 Log Analysis
-
 This project is aimed to generate following reports from news database which can be used by management for analysis
 1. What are the most popular three articles of all time
 2. Who are the most popular article authors of all time
@@ -23,11 +22,19 @@ Prerequisites
 
 Installing
 1. Add line following line in the Vagrantfile to add the port to server
-
  	config.vm.network "forwarded_port", guest: 5000, host: 5000
-2. Please compile the file LogQuery.py using compiler python3
-3. Compile LogAnalysis.py using compiler python3
-4. It should start the server and display the following message
+2. copy the folder of project LogAnalysis in your vagrant folder
+3. Please start your virtual machine with vagrant up
+4. vagrant ssh
+5. $ pip3 install simplejson
+6. $ pip3 install psycopg2-binary
+7. Also check if the following folders exist in your environment if it does not then
+   Please install following packages using pip3 install command
+	1. extras
+	2. RealDictCursor
+8. Please compile the file LogQuery.py using compiler python3
+9. Compile LogAnalysis.py using compiler python3
+10. It should start the server and display the following message
  	* Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
  	* Restarting with stat
  	* Debugger is active!
@@ -38,11 +45,8 @@ Installing
 Running the tests
 1. Open the browser and type http://localhost:5000/
    It should open the page with heading "News Reports" with the following option to generate the report
-   
  	a. What are the most popular three articles of all time?  View (button)
-
 	b. Who are the most popular article authors of all time? View (button)
-	
 	c. On which days did more than 1% of requests lead to errors? View (button)
 2. Clicking on View button of each report should display the report
 
